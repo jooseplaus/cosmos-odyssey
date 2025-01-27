@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Cosmos Odyssey
 
 Kosmose reisimise broneerimissüsteem, mis võimaldab otsida ja broneerida lende erinevate planeetide vahel.
@@ -53,3 +54,6 @@ Rakendus on nüüd kättesaadav aadressil `http://localhost:3000`
 - Frontend: React.js
 - Backend: Node.js, Express
 - Andmebaas: MongoDB
+=======
+# cosmos-odyssey
+>>>>>>> 2e386806c9ca7c9db3b6bee85d5d8614905dcf48
