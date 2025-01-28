@@ -5,6 +5,8 @@ const connectDB = require('./config/db');
 const PriceListService = require('./services/priceListService');
 const errorHandler = require('./middleware/errorHandler');
 const rateLimiter = require('./middleware/rateLimiter');
+const mongoose = require('mongoose');
+const reservationRoutes = require('./routes/reservation');
 
 const app = express();
 
@@ -22,7 +24,6 @@ app.use(rateLimiter);  // Kaitse ülekoormuse eest
 const priceListRoutes = require('./routes/priceList');
 const { router: itineraryRoutes } = require('./routes/itinerary');
 const routeFinderRoutes = require('./routes/routeFinder');
-const reservationRoutes = require('./routes/reservation');
 
 // Use routes
 app.use('/api', priceListRoutes);
@@ -54,7 +55,7 @@ app.get('/api/test', (req, res) => {
 
 if (process.env.NODE_ENV !== 'test') {
     const server = app.listen(PORT, () => {
-        console.log(`Server is running on port ${PORT}`);
+        console.log(`Server jookseb pordil ${PORT}`);
     });
 }
 
@@ -64,5 +65,12 @@ app.cleanup = () => {
         clearInterval(intervalId);
     }
 };
+
+mongoose.connect('mongodb://localhost:27017/cosmos-odyssey', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+})
+.then(() => console.log('MongoDB ühendus õnnestus'))
+.catch(err => console.error('MongoDB ühenduse viga:', err));
 
 module.exports = app; // Ekspordi app testide jaoks 

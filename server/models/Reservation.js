@@ -1,5 +1,16 @@
 const mongoose = require('mongoose');
 
+const flightSchema = new mongoose.Schema({
+  flightNumber: String,
+  from: String,
+  to: String,
+  company: String,
+  startTime: Date,
+  endTime: Date,
+  distance: Number,
+  price: Number
+});
+
 const reservationSchema = new mongoose.Schema({
   firstName: {
     type: String,
@@ -9,21 +20,34 @@ const reservationSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  priceListId: {
+  routes: {
     type: String,
     required: true
   },
-  routes: [{
-    from: String,
-    to: String,
-    company: String,
-    price: Number,
-    flightStart: Date,
-    flightEnd: Date
+  totalPrice: {
+    type: Number,
+    required: true
+  },
+  totalDuration: {
+    days: Number,
+    hours: Number,
+    minutes: Number
+  },
+  companies: [{
+    type: String
   }],
-  totalPrice: Number,
-  totalTravelTime: Number,
-  companies: [String]
+  flights: [flightSchema],
+  bookingDate: {
+    type: Date,
+    default: Date.now
+  }
 }, { timestamps: true });
 
-module.exports = mongoose.model('Reservation', reservationSchema); 
+// Lisa pre-save hook logimiseks
+reservationSchema.pre('save', function(next) {
+  console.log('Salvestatavad andmed:', this.toObject());
+  next();
+});
+
+const Reservation = mongoose.model('Reservation', reservationSchema);
+module.exports = Reservation; 
