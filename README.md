@@ -3,8 +3,7 @@
 Kosmose reisimise broneerimissüsteem, mis võimaldab otsida ja broneerida lende erinevate planeetide vahel.
 
 Mõned mõtted: 
-1. Filter on loodud nii, et saaks kasutada mitut filtrit korraga
-2. Kui olete broneeringu teinud, siis tehtud broneeringuid kuvatakse ka eraldi lehele, http://localhost:3000/reservations
+1. Kui olete broneeringu teinud, siis tehtud broneeringuid kuvatakse ka eraldi lehele, http://localhost:3000/reservations
 
 Tahaksin välja tuua ka selle, et kui panna clientis npm install, siis annab 8 vulnerabilitit. Üritasin seda parandada, aga ei tulnud välja. Mulle tundus probleem on vist selles, et :react-scripts -> @svgr/webpack -> @svgr/plugin-svgo -> svgo -> css-select kasutab nth-check@1.0.2 aga mul on nth 2.1.1. Ja react-scripts on 5.0.1. 
 
