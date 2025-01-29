@@ -10,20 +10,20 @@ const Reservations = () => {
 
     // Abifunktsioon kestuse vormindamiseks
     const formatDuration = (duration) => {
-        if (!duration) return 'Teadmata';
+        if (!duration) return 'Unknown';
         const { days, hours, minutes } = duration;
-        return `${days || 0} päeva, ${hours || 0} tundi, ${minutes || 0} minutit`;
+        return `${days || 0} days, ${hours || 0} hours, ${minutes || 0} minutes`;
     };
 
     // Uuendatud kuupäeva formaat
     const formatDate = (dateString) => {
-        if (!dateString) return 'Kuupäev puudub';
+        if (!dateString) return 'Date not found';
         const date = new Date(dateString);
         if (isNaN(date.getTime())) {
             // Kui kuupäev on vigane, tagasta originaal string või teade
-            return dateString || 'Kuupäev puudub';
+            return dateString || 'Date not found';
         }
-        return date.toLocaleString('et-EE', {
+        return date.toLocaleString('en-US', {
             year: 'numeric',
             month: '2-digit',
             day: '2-digit',
@@ -43,12 +43,12 @@ const Reservations = () => {
         const fetchReservations = async () => {
             try {
                 const response = await priceListApi.getReservations();
-                console.log('Broneeringute vastus:', response);
+                console.log('Reservations response:', response);
                 setReservations(response.data || []);
                 setLoading(false);
             } catch (err) {
-                console.error('Viga broneeringute laadimisel:', err);
-                setError('Broneeringute laadimine ebaõnnestus');
+                console.error('Error fetching reservations:', err);
+                setError('Failed to load reservations');
                 setLoading(false);
             }
         };
@@ -90,7 +90,6 @@ const Reservations = () => {
                                 <FlightCard key={index}>
                                     <h5>Flight {index + 1}: {flight.from} → {flight.to}</h5>
                                     <FlightDetails>
-                                        <p>Company: {flight.company}</p>
                                         <p>Departure: {formatDate(flight.startTime)}</p>
                                         <p>Arrival: {formatDate(flight.endTime)}</p>
                                         <p>Distance: {(flight.distance / 1000000).toFixed(1)} million km</p>
