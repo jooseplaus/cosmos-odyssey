@@ -106,7 +106,7 @@ const RouteFinderTester = () => {
                                         <ul>
                                             {option.flightDetails.map((flight, idx) => (
                                                 <li key={idx}>
-                                                    {flight.from} -> {flight.to}: {flight.provider}, 
+                                                    {flight.from} - {flight.to}: {flight.provider}, 
                                                     Algus: {new Date(flight.start).toLocaleString()},
                                                     Lõpp: {new Date(flight.end).toLocaleString()},
                                                     Hind: {flight.price}€

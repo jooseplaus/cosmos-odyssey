@@ -21,6 +21,15 @@ const client = axios.create({
     }
 });
 
+client.interceptors.request.use(request => {
+    console.log('Väljuv päring:', request);
+    return request;
+});
+
+client.interceptors.response.use(response => {
+    console.log('Saabuv vastus:', response);
+    return response;
+});
 
 export { testConnection }; // Ekspordib test funktsiooni 
 export default client; 

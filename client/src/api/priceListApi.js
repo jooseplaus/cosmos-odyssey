@@ -1,5 +1,5 @@
 import client from './client';
-
+import axios from 'axios';
 
 // API funktsioonid hinnakirjade ja broneeringute haldamiseks
 export const priceListApi = {
@@ -16,8 +16,17 @@ export const priceListApi = {
     },
     
     // Loo uus reservatsioon
-    createReservation: (data) => client.post('/reservations', data),
+    createReservation: (reservationData) => {
+        console.log('Saadan broneeringu:', reservationData);
+        return client.post('/reservations', reservationData);
+    },
     
-    // Saab reservatsioone priceListi põhjal
-    getReservations: (priceListId) => client.get(`/reservations/${priceListId}`)
+    // Saab reservatsioone
+    getReservations: () => {
+        return client.get('/reservations');
+    },
+
+    getPriceList: () => {
+        return client.get('/price-list');
+    }
 }; 

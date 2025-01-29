@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useReservation } from './reservationContext';
 import styled from 'styled-components';
+import { priceListApi } from '../../api/priceListApi';
 
 const Overlay = styled.div`
     position: fixed;
@@ -145,24 +146,42 @@ const ReservationForm = ({ selectedRoute, onClose }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            console.log('Selected route flights:', selectedRoute.flights);
+
             const reservationData = {
                 firstName: formData.firstName,
                 lastName: formData.lastName,
                 routes: selectedRoute.route,
-                totalPrice: selectedRoute.totalPrice,
-                totalDuration: selectedRoute.totalDuration,
+                totalPrice: parseFloat(selectedRoute.totalPrice),
+                totalDuration: {
+                    days: selectedRoute.totalDuration.days || 0,
+                    hours: selectedRoute.totalDuration.hours || 0,
+                    minutes: selectedRoute.totalDuration.minutes || 0
+                },
                 companies: [selectedRoute.company],
-                startDate: selectedRoute.startDate,
-                endDate: selectedRoute.endDate
+                flights: selectedRoute.flights.map(flight => ({
+                    flightNumber: `${flight.from}-${flight.to}`,
+                    from: flight.from,
+                    to: flight.to,
+                    company: flight.company,
+                    startTime: flight.flightStart,
+                    endTime: flight.flightEnd,
+                    distance: flight.distance,
+                    price: flight.price
+                }))
             };
             
-            await makeReservation(reservationData);
-            setSuccess(true);
-            setTimeout(() => {
-                onClose();
-            }, 2000);
+            console.log('Saadan broneeringu:', reservationData);
+            const response = await priceListApi.createReservation(reservationData);
+            
+            if (response.status === 201) {
+                setSuccess(true);
+                setTimeout(() => {
+                    onClose();
+                }, 2000);
+            }
         } catch (err) {
-            console.error('Form submission error:', err);
+            console.error('Viga broneeringu tegemisel:', err);
         }
     };
 
